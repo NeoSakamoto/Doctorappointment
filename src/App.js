@@ -12,7 +12,7 @@ import logo from './logo.png'
 import React, { useState } from 'react';
 import './App.css';
 
-import { Button, Card, Form, Toast } from 'react-bootstrap';
+import { Button, Card, Form, Toast, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -24,6 +24,9 @@ function App() {
 
   const [showA, setShowA] = useState(false);
 
+  const [showAppointments, setShowAppointments] = useState(false);
+  const [Appointments, setAppointments] = useState([]);
+
   const showToast = (message) => {
     setShowA(false);
 
@@ -32,6 +35,18 @@ function App() {
       setShowA(true);
     }, 10);
   };
+
+  const addAppointment = (speciality, name) => {
+    showToast("Успіх");
+
+    const newAppointment = {
+      speciality: speciality,
+      doctor: name,
+      date: "20.08.2026"
+    };
+
+    setAppointments([...Appointments, newAppointment]);
+  }
 
   const handleSubmit = () => {
     setShowA(false);
@@ -63,6 +78,10 @@ function App() {
           </div>
 
             <div className="menu">
+              <Button variant = "danger" onClick = {() => setShowAppointments(true)}>
+                  Записи
+              </Button>
+
               <Button variant = "danger">
                   Контакти
               </Button>
@@ -81,6 +100,38 @@ function App() {
             </div>
           </div>
 
+
+          <Modal show = {showAppointments} onHide = {() => setShowAppointments(false)}>
+            <Modal.Header CloseButton>
+              <Modal.Title> Записи к врачам </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {Appointments.length === 0 ? (<p> Немає наявних записів </p>) :
+              (Appointments.map((Appointment, index) => (
+                <Card className = "mb-3" key = {index}>
+                  <Card.Body>
+                    <Card.Title>
+                      Запис #{index + 1}
+                    </Card.Title>
+                    <Card.Text>
+                      <strong>Спеціалізація:</strong> {Appointment.speciality}
+                      <br />
+                      <strong>Доктор:</strong> {Appointment.doctor}
+                      <br />
+                      <strong>Дата:</strong> {Appointment.date}
+                      <br />
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              ))
+              )}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant = "danger" onClick = {() => setShowAppointments(false)}> Закрити </Button>
+            </Modal.Footer>
+          </Modal>
+
+
           <div className="center-title">
             Наші лікарі
           </div>
@@ -96,7 +147,8 @@ function App() {
               <Card.Text className = "doctor-text">
                 Олександр Іваненко
               </Card.Text>
-              <Button variant = "danger" style = {{alignItems: 'flex-end'}}> Записатися </Button>
+              <Button variant = "danger" style = {{alignItems: 'flex-end'}}
+              onClick = {() => addAppointment("Терапевт", "Олександр Іваненко")}> Записатися </Button>
             </Card.Body>
           </Card>
 
@@ -110,7 +162,8 @@ function App() {
               <Card.Text className = "doctor-text">
                 Ольга Назарченко
               </Card.Text>
-              <Button variant = "danger"> Записатися </Button>
+              <Button variant = "danger"
+              onClick = {() => addAppointment("Логопед", "Ольга Назарченко")}> Записатися </Button>
             </Card.Body>
           </Card>
 
@@ -124,7 +177,8 @@ function App() {
               <Card.Text className = "doctor-text">
                 Федір Федорченко
               </Card.Text>
-              <Button variant = "danger"> Записатися </Button>
+              <Button variant = "danger"
+              onClick = {() => addAppointment("Ортопед", "Федір Федорченко")}> Записатися </Button>
             </Card.Body>
           </Card>
 
@@ -138,7 +192,8 @@ function App() {
               <Card.Text className = "doctor-text">
                 Павло Гриценко
               </Card.Text>
-              <Button variant = "danger"> Записатися </Button>
+              <Button variant = "danger"
+              onClick = {() => addAppointment("Невролог", "Павло Гриценко")}> Записатися </Button>
             </Card.Body>
           </Card>
 
@@ -152,7 +207,8 @@ function App() {
               <Card.Text className = "doctor-text">
                 Алла Дорошенко
               </Card.Text>
-              <Button variant = "danger"> Записатися </Button>
+              <Button variant = "danger"
+              onClick = {() => addAppointment("Дієтолог", "Алла Дорошенко")}> Записатися </Button>
             </Card.Body>
           </Card>
 
@@ -166,7 +222,8 @@ function App() {
               <Card.Text className = "doctor-text">
                 Андрій Савченко
               </Card.Text>
-              <Button variant = "danger"> Записатися </Button>
+              <Button variant = "danger"
+              onClick = {() => addAppointment("Стоматолог", "Андрій Савченко")}> Записатися </Button>
             </Card.Body>
           </Card>
 
@@ -180,7 +237,8 @@ function App() {
               <Card.Text className = "doctor-text">
                 Максим Пастарнак
               </Card.Text>
-              <Button variant = "danger"> Записатися </Button>
+              <Button variant = "danger"
+              onClick = {() => addAppointment("Рентгенолог", "Максим Пастарнак")}> Записатися </Button>
             </Card.Body>
           </Card>
 
@@ -194,7 +252,8 @@ function App() {
               <Card.Text className = "doctor-text">
                 Антон Корнієко
               </Card.Text>
-              <Button variant = "danger"> Записатися </Button>
+              <Button variant = "danger"
+              onClick = {() => addAppointment("Лікар УЗД", "Антон Корнієко")}> Записатися </Button>
             </Card.Body>
           </Card>
 
@@ -208,7 +267,8 @@ function App() {
               <Card.Text className = "doctor-text">
                 Ірина Дяченко
               </Card.Text>
-              <Button variant = "danger"> Записатися </Button>
+              <Button variant = "danger"
+              onClick = {() => addAppointment("Анестезіолог", "Ірина Дяченко")}> Записатися </Button>
             </Card.Body>
           </Card>
 
@@ -222,7 +282,8 @@ function App() {
               <Card.Text className = "doctor-text">
                 Людмила Черненко
               </Card.Text>
-              <Button variant = "danger"> Записатися </Button>
+              <Button variant = "danger"
+              onClick = {() => addAppointment("Сімейний лікар", "Людмила Черненко")}> Записатися </Button>
             </Card.Body>
           </Card>
           </div>
